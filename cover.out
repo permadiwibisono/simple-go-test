@@ -6,3 +6,7 @@ simple-go-test/main.go:37.2,37.15 1 1
 simple-go-test/main.go:23.16,25.3 1 0
 simple-go-test/main.go:28.16,30.3 1 1
 simple-go-test/main.go:34.16,36.3 1 1
+simple-go-test/main.go:40.13,42.2 1 1
+simple-go-test/main.go:44.13,47.16 3 0
+simple-go-test/main.go:51.2,51.33 1 0
+simple-go-test/main.go:47.16,50.3 2 0
