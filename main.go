@@ -7,6 +7,14 @@ import (
 	"net/http"
 )
 
+type HTTPClient interface {
+	Do(req *http.Request) (*http.Response, error)
+}
+
+var (
+	Client HTTPClient
+)
+
 // GetRepos takes a username and return their repos
 func GetRepos(ctx context.Context, username string) ([]map[string]interface{}, error) {
 	url := fmt.Sprintf("https://api.github.com/users/%s/repos?sort=created&direction=desc", username)
@@ -16,8 +24,7 @@ func GetRepos(ctx context.Context, username string) ([]map[string]interface{}, e
 		return nil, err
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(request)
+	response, err := Client.Do(request)
 	if err != nil {
 		return nil, err
 	}
@@ -28,6 +35,10 @@ func GetRepos(ctx context.Context, username string) ([]map[string]interface{}, e
 		return nil, err
 	}
 	return m, nil
+}
+
+func init() {
+	Client = &http.Client{}
 }
 
 func main() {
