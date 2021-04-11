@@ -62,7 +62,30 @@ func TestGitHubCallFail(t *testing.T) {
 		},
 	}
 	ctx := context.Background()
-	_, err := GetRepos(ctx, "permadiwibisonothisusershouldnotexist")
+	_, err := GetRepos(ctx, "permadiwibisono123")
+	if err == nil {
+		t.Error("TestGitHubCallFail failed.")
+		return
+	}
+}
+
+func TestGitHubCallBadJsonFail(t *testing.T) {
+	// build our response JSON
+	jsonResponse := `{
+		"full_name": "mock-repo"
+	}`
+	// ceate a new reader with that JSON
+	r := ioutil.NopCloser(bytes.NewReader([]byte(jsonResponse)))
+	Client = &MockClient{
+		MockDo: func(req *http.Request) (*http.Response, error) {
+			return &http.Response{
+				StatusCode: 200,
+				Body:       r,
+			}, nil
+		},
+	}
+	ctx := context.Background()
+	_, err := GetRepos(ctx, "permadiwibisono")
 	if err == nil {
 		t.Error("TestGitHubCallFail failed.")
 		return
